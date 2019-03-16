@@ -17,17 +17,36 @@ const profile = require("./routes/api/profile");
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
-app.get("/", (req, res) =>
-  res.send("<h1>Dev Connector Setup</h1>")
-);
-
 app.use("/api/users", users);
 app.use("/api/posts", posts);
 app.use("/api/profile", profile);
 
+//CORS rules
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  next();
+});
+
+//error middleware
+app.use((error, req, res, next) => {
+  const message = error.message;
+  const statusCode = error.statusCode;
+  return res.status(statusCode).json({
+    msg: message
+  });
+});
+
 const port = process.env.PORT || 5000;
 
-//connect to mongodb and only spin the server when connected
+//connect to mongodb and only start the server when connected
 mongoose
   .connect(MONGO_URI_LOCAL, { useNewUrlParser: true })
   .then(() => {

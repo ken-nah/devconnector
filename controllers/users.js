@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const { secret } = require("../config/keys");
 
 exports.postRegister = (req, res) => {
   let newUser;
@@ -36,4 +39,53 @@ exports.postRegister = (req, res) => {
       return res.json(savedUser);
     })
     .catch(err => console.log(err.message));
+};
+
+exports.postLogin = (req, res) => {
+  const { email, password } = req.body;
+  //check whether email exists
+
+  User.findOne({ email })
+    .then(user => {
+      if (!user)
+        return res
+          .status(401)
+          .json({ user: "Invalid Username or Password" });
+
+      //compare passwords to see if it's valid
+
+      bcrypt
+        .compare(password, user.password)
+        .then(doMatch => {
+          if (doMatch) {
+            //we are here because passwords matched -> generate token
+
+            const payload = {
+              id: user._id,
+              name: user.name,
+              avatar: user.avatar
+            };
+            const token = jwt.sign(payload, secret, {
+              expiresIn: "1h"
+            });
+            return res.status(200).json({
+              msg: "Authenticated..",
+              token
+            });
+          }
+          return res
+            .status(401)
+            .json({ user: "Invalid username or password" });
+        });
+    })
+    .catch(err => console.log(err.message));
+};
+
+exports.getCurrentUser = (req, res) => {
+  const { id, name, avatar } = req;
+  res.status(200).json({
+    id,
+    name,
+    avatar
+  });
 };

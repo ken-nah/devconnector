@@ -114,3 +114,5 @@ const profileSchema = new Schema(
   },
   { timestamps: true }
 );
+
+module.exports = mongoose.model("profile", profileSchema);

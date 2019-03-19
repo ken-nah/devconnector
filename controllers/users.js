@@ -2,10 +2,21 @@ const User = require("../models/User");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {
+  validationResult
+} = require("express-validator/check");
 
 const { secret } = require("../config/keys");
 
 exports.postRegister = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const allValidationErrors = {};
+    for (let { param, msg } of errors.array())
+      allValidationErrors[param] = msg;
+    return res.status(422).json(allValidationErrors);
+  }
+
   let newUser;
 
   User.findOne({ email: req.body.email })
@@ -31,7 +42,6 @@ exports.postRegister = (req, res) => {
       return bcrypt.hash(newUser.password, 12);
     })
     .then(hashedPassword => {
-      console.log(hashedPassword);
       newUser.password = hashedPassword;
       return newUser.save();
     })

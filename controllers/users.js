@@ -2,29 +2,31 @@ const User = require("../models/User");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const {
   validationResult
 } = require("express-validator/check");
 
 const { secret } = require("../config/keys");
 
-exports.postRegister = (req, res) => {
+exports.postRegister = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const allValidationErrors = {};
+    const allErrors = {};
     for (let { param, msg } of errors.array())
-      allValidationErrors[param] = msg;
-    return res.status(422).json(allValidationErrors);
+      allErrors[param] = msg;
+    return res.status(400).json(allErrors);
   }
 
   let newUser;
 
   User.findOne({ email: req.body.email })
     .then(user => {
-      if (user)
-        return res
-          .status(400)
-          .json({ email: "User already exists.." });
+      if (user) {
+        const error = new Error("User already Exists..");
+        error.statusCode = 400;
+        throw error;
+      }
 
       const avatar = gravatar.url(req.body.email, {
         s: "200",
@@ -48,7 +50,7 @@ exports.postRegister = (req, res) => {
     .then(savedUser => {
       return res.json(savedUser);
     })
-    .catch(err => console.log(err.message));
+    .catch(err => next(err));
 };
 
 exports.postLogin = (req, res) => {

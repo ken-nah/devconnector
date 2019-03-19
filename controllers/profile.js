@@ -1,3 +1,7 @@
+const {
+  validationResult
+} = require("express-validator/check");
+
 //models
 const Profile = require("./../models/Profile");
 const User = require("../models/User");
@@ -7,6 +11,7 @@ exports.getCurrentUserProfile = (req, res, next) => {
 
   //find whether the logged in user has a profile
   Profile.findOne({ user: req.id })
+    .populate("users", ["name", "avatar"])
     .then(profile => {
       if (!profile) {
         errors.profile = "No profile Found for this user";
@@ -18,10 +23,18 @@ exports.getCurrentUserProfile = (req, res, next) => {
 };
 
 exports.createOrUpdateUserProfile = (req, res, next) => {
+  //check for validation errors first
+
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    const allErrors = {};
+    for (let { param, msg } of validationErrors.array())
+      allErrors[param] = msg;
+    return res.status(400).json(allErrors);
+  }
+
   const profileFields = {};
   const errors = {};
-
-  profileFields.user = req.id;
 
   //get all the fields from the req body
   const {
@@ -41,7 +54,7 @@ exports.createOrUpdateUserProfile = (req, res, next) => {
   } = req.body;
 
   if (handle) profileFields.handle = handle;
-  if (webiste) profileFields.webiste = webiste;
+  if (website) profileFields.website = website;
   if (company) profileFields.company = company;
   if (location) profileFields.location = location;
   if (bio) profileFields.bio = bio;
@@ -65,33 +78,37 @@ exports.createOrUpdateUserProfile = (req, res, next) => {
     .then(profile => {
       if (profile) {
         //user exists so we are updating his info
-        return Profile.findOneAndUpdate(
+        Profile.findOneAndUpdate(
           { user: req.id },
           { $set: profileFields },
           { new: true }
-        ).then(userProfile => res.json(userProfile));
+        )
+          .then(userProfile => res.json(userProfile))
+          .catch(err => next(err));
       } else {
         //user doesn't exist instead we're creating a new profile BUT..
 
         //1.check whether the handle exits if it does user must choose another
 
-        return Profile.findOne({
+        Profile.findOne({
           handle: profileFields.handle
-        });
+        })
+          .then(handleExists => {
+            if (handleExists) {
+              errors.handle =
+                "Handle exists, Please choose another one";
+              return res.status(400).json(errors);
+            }
+
+            //we are here because the handle doesn't exist -> create User profile
+            const newProfile = new Profile(profileFields);
+            newProfile
+              .save()
+              .then(newProfile => res.json(newProfile))
+              .catch(next(err));
+          })
+          .catch(err => next(err));
       }
     })
-
-    .then(handleExists => {
-      if (handleExists) {
-        errors.handle =
-          "Handle exists, Please choose another one";
-        return res.status(400).json(errors);
-      }
-
-      //we are here because the handle doesn't exist -> create User profile
-      const newProfile = new Profile(profileFields);
-      return newProfile.save();
-    })
-    .then(newProfile => res.json(newProfile))
     .catch(err => next(err));
 };

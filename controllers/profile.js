@@ -4,6 +4,7 @@ const {
 
 //models
 const Profile = require("./../models/Profile");
+const User = require("./../models/User");
 
 exports.getCurrentUserProfile = (req, res, next) => {
   const errors = {};
@@ -154,6 +155,133 @@ exports.getAllProfiles = (req, res, next) => {
           .status(400)
           .json("There no profiles yet..");
       return res.json(profiles);
+    })
+    .catch(err => next(err));
+};
+
+//add user experience
+exports.addExperience = (req, res, next) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    const allErrors = {};
+    for (let { param, msg } of validationErrors.array())
+      allErrors[param] = msg;
+    return res.status(400).json(allErrors);
+  }
+
+  Profile.findOne({ user: req.id })
+    .then(profile => {
+      //fetch all required fields from the request body
+      const {
+        title,
+        company,
+        from,
+        to,
+        description
+      } = req.body;
+
+      const newExperience = {
+        title,
+        company,
+        from,
+        to,
+        description
+      };
+
+      profile.experience.unshift(newExperience);
+
+      return profile.save();
+    })
+    .then(updatedProfile => res.json(updatedProfile))
+    .catch(err => next(err));
+};
+
+//add user education
+exports.addUserEducation = (req, res, next) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    const allErrors = {};
+    for (let { param, msg } of validationErrors.array())
+      allErrors[param] = msg;
+    return res.status(400).json(allErrors);
+  }
+
+  Profile.findOne({ user: req.id })
+    .then(userProfile => {
+      const {
+        school,
+        degree,
+        fieldOfStudy,
+        from,
+        description
+      } = req.body;
+
+      const newEducation = {
+        school,
+        degree,
+        fieldOfStudy,
+        from,
+        description
+      };
+
+      userProfile.education.unshift(newEducation);
+
+      return userProfile.save();
+    })
+    .then(updatedProfile => res.json(updatedProfile))
+    .catch(err => next(err));
+};
+
+//delete education by _id
+exports.deleteUserEducation = (req, res, next) => {
+  Profile.findOne({ user: req.id })
+    .then(profile => {
+      if (profile) {
+        const removeIndex = profile.education
+          .map(item => item._id)
+          .indexOf(req.params.education_id);
+
+        profile.education.splice(removeIndex, 1);
+
+        return profile.save();
+      }
+    })
+    .then(updatedProfile => res.json(updatedProfile))
+    .catch(err => next(err));
+};
+
+//delete experience by _id
+exports.deleteUserExperience = (req, res, next) => {
+  Profile.findOne({ user: req.id })
+    .then(profile => {
+      if (profile) {
+        const removeIndex = profile.education
+          .map(item => item._id)
+          .indexOf(req.params.experience_id);
+
+        profile.experience.splice(removeIndex, 1);
+
+        return profile.save();
+      }
+    })
+    .then(updatedProfile => res.json(updatedProfile))
+    .catch(err => next(err));
+};
+
+//delete entire user and profile
+exports.deleteUserProfile = (req, res, next) => {
+  Profile.findOneAndRemove({ user: req.id })
+    .then(deleteProfile => {
+      User.findOneAndRemove({ _id: req.id })
+        .then(deletedUser => {
+          if (deletedUser)
+            res
+              .status(200)
+              .json({
+                msg: "Success..User profile deleted"
+              });
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 };

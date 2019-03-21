@@ -11,7 +11,12 @@ const {
   createOrUpdateUserProfile,
   getProfileByHandle,
   getProfileByUserId,
-  getAllProfiles
+  getAllProfiles,
+  addExperience,
+  addUserEducation,
+  deleteUserEducation,
+  deleteUserExperience,
+  deleteUserProfile
 } = require("../../controllers/profile");
 
 //@route GET api/profile
@@ -59,5 +64,79 @@ router.get("/user/:user_id", getProfileByUserId);
 //@access public
 
 router.get("/all", getAllProfiles);
+
+//@route POST api/profile/experience
+//@desc  add user experience
+//@access private
+
+router.post(
+  "/experience",
+  [
+    body("title")
+      .exists()
+      .withMessage("Title Field is required"),
+    body("company")
+      .exists()
+      .withMessage("Company Field is required"),
+    body("from")
+      .exists()
+      .withMessage("From Field is required")
+  ],
+  isAuth,
+  addExperience
+);
+
+//@route POST api/profile/education
+//@desc  add user education
+//@access private
+router.post(
+  "/education",
+  [
+    body("school")
+      .exists()
+      .withMessage("School Field is required"),
+    body("fieldOfStudy")
+      .exists()
+      .withMessage("Study Field is required"),
+    body("degree")
+      .exists()
+      .withMessage("Degree Field is required"),
+    body("from")
+      .exists()
+      .withMessage("From Field is required")
+  ],
+  isAuth,
+  addUserEducation
+);
+
+//@route DELETE api/profile/education/education_id
+//@desc  delete user education
+//@access private
+
+router.delete(
+  "/education/:education_id",
+  isAuth,
+  deleteUserEducation
+);
+
+//@route DELETE api/profile/experience/experience_id
+//@desc  delete user experience
+//@access private
+
+router.delete(
+  "/experience/:experience_id",
+  isAuth,
+  deleteUserExperience
+);
+
+//@route DELETE api/profile/
+//@desc  delete user profile and account
+//@access private
+
+router.delete(
+  "/",
+  isAuth,
+  deleteUserProfile
+);
 
 module.exports = router;

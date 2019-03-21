@@ -53,7 +53,11 @@ router.post(
 //@route POST api/users/login
 //@desc  Logging in users
 //@access public
-router.post("/login", postLogin);
+router.post(
+  "/login",
+  body("email").normalizeEmail(),
+  postLogin
+);
 
 //@route GET api/users/current
 //@desc  Get current logged in user

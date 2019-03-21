@@ -4,14 +4,13 @@ const {
 
 //models
 const Profile = require("./../models/Profile");
-const User = require("../models/User");
 
 exports.getCurrentUserProfile = (req, res, next) => {
   const errors = {};
 
   //find whether the logged in user has a profile
   Profile.findOne({ user: req.id })
-    .populate("users", ["name", "avatar"])
+    .populate("user", ["name", "avatar"])
     .then(profile => {
       if (!profile) {
         errors.profile = "No profile Found for this user";
@@ -22,7 +21,11 @@ exports.getCurrentUserProfile = (req, res, next) => {
     .catch(err => next(err));
 };
 
-exports.createOrUpdateUserProfile = (req, res, next) => {
+exports.createOrUpdateUserProfile = async (
+  req,
+  res,
+  next
+) => {
   //check for validation errors first
 
   const validationErrors = validationResult(req);
@@ -34,7 +37,7 @@ exports.createOrUpdateUserProfile = (req, res, next) => {
   }
 
   const profileFields = {};
-  const errors = {};
+  profileFields.user = req.id;
 
   //get all the fields from the req body
   const {
@@ -74,41 +77,83 @@ exports.createOrUpdateUserProfile = (req, res, next) => {
   if (linkedin) profileFields.social.linkedin = linkedin;
   if (instagram) profileFields.social.instagram = instagram;
 
+  //..Let's find whether the user has a profile
+
   Profile.findOne({ user: req.id })
-    .then(profile => {
-      if (profile) {
-        //user exists so we are updating his info
+    .then(profileExists => {
+      //..We're here because the profile exists
+      if (profileExists) {
         Profile.findOneAndUpdate(
           { user: req.id },
           { $set: profileFields },
           { new: true }
         )
-          .then(userProfile => res.json(userProfile))
+          .then(updatedProfile => res.json(updatedProfile))
           .catch(err => next(err));
       } else {
-        //user doesn't exist instead we're creating a new profile BUT..
+        //..otherwise it doesn't exists -> we need to create a new one
 
-        //1.check whether the handle exits if it does user must choose another
-
-        Profile.findOne({
-          handle: profileFields.handle
-        })
+        //..but first let's confirm the user has a unique handle
+        Profile.findOne({ handle: profileFields.handle })
           .then(handleExists => {
-            if (handleExists) {
-              errors.handle =
-                "Handle exists, Please choose another one";
-              return res.status(400).json(errors);
-            }
+            if (handleExists)
+              return res.status(400).json({
+                handle:
+                  "Handle is taken..Choose another one.!"
+              });
 
-            //we are here because the handle doesn't exist -> create User profile
-            const newProfile = new Profile(profileFields);
-            newProfile
-              .save()
-              .then(newProfile => res.json(newProfile))
-              .catch(next(err));
+            //.. Handle is unique -> proceed to create a new profile
+            return new Profile(profileFields).save();
           })
+          .then(createdProfile => res.json(createdProfile))
           .catch(err => next(err));
       }
+    })
+    .catch(err => next(err));
+};
+
+//get profile by handle
+exports.getProfileByHandle = (req, res, next) => {
+  const errors = {};
+  Profile.findOne({ handle: req.params.handle })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (!profile) {
+        errors.noProfile =
+          "There is no profile with that handle";
+        return res.status(404).json(errors);
+      }
+      return res.json(profile);
+    })
+    .catch(err => next(err));
+};
+
+//get profile by user_id
+exports.getProfileByUserId = (req, res, next) => {
+  const errors = {};
+  Profile.findOne({ user: req.params.user_id })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (!profile) {
+        errors.noProfile =
+          "There is no user profile with that id";
+        return res.status(404).json(errors);
+      }
+      return res.json(profile);
+    })
+    .catch(err => next(err));
+};
+
+//get all profiles
+exports.getAllProfiles = (req, res, next) => {
+  Profile.find()
+    .populate("user", ["name", "avatar"])
+    .then(profiles => {
+      if (!profiles)
+        return res
+          .status(400)
+          .json("There no profiles yet..");
+      return res.json(profiles);
     })
     .catch(err => next(err));
 };

@@ -8,7 +8,10 @@ const isAuth = require("../../middlewares/is-auth");
 //import profile route controller
 const {
   getCurrentUserProfile,
-  createOrUpdateUserProfile
+  createOrUpdateUserProfile,
+  getProfileByHandle,
+  getProfileByUserId,
+  getAllProfiles
 } = require("../../controllers/profile");
 
 //@route GET api/profile
@@ -38,5 +41,23 @@ router.post(
   isAuth,
   createOrUpdateUserProfile
 );
+
+//@route GET api/profile/handle/:handle
+//@desc  Get  user by handle
+//@access public
+
+router.get("/handle/:handle", getProfileByHandle);
+
+//@route GET api/profile/user/:user_id
+//@desc  Get  user by id
+//@access public
+
+router.get("/user/:user_id", getProfileByUserId);
+
+//@route GET api/profile/all
+//@desc  Get  all user profiles
+//@access public
+
+router.get("/all", getAllProfiles);
 
 module.exports = router;

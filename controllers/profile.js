@@ -22,7 +22,7 @@ exports.getCurrentUserProfile = (req, res, next) => {
     .catch(err => next(err));
 };
 
-exports.createOrUpdateUserProfile = async (
+exports.createOrUpdateUserProfile = (
   req,
   res,
   next

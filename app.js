@@ -18,7 +18,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 app.use("/api/users", users);
-app.use("/api/posts", posts);
+app.use("/api/post", posts);
 app.use("/api/profile", profile);
 
 //CORS rules
@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 //error middleware
 app.use((error, req, res, next) => {
   const message = error.message;
-  const statusCode = error.statusCode;
+  const statusCode = error.statusCode || 500;
   return res.status(statusCode).json({
     msg: message
   });

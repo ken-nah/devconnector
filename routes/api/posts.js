@@ -1,12 +1,41 @@
 const express = require("express");
+const { body } = require("express-validator/check");
 
 const router = express.Router();
 
-//@route GET api/posts/test
-//@desc  Testing
+const isAuth = require("../../middlewares/is-auth");
+
+const {
+  createNewPost,
+  getAllPosts,
+  deletePostById
+} = require("../../controllers/posts");
+//@route POST api/post
+//@desc  Creating a new post
+//@access private
+
+router.post(
+  "/",
+  isAuth,
+  [
+    body(
+      "text",
+      "Text field is required and characters should be between 10 and 300 long"
+    )
+      .exists()
+      .isLength({ min: 10, max: 300 })
+  ],
+  createNewPost
+);
+
+//@route Get api/post
+//@desc  Creating a new post
 //@access public
-router.get("/test", (req, res) => {
-  return res.json({ message: "Posts route" });
-});
+router.get("/", getAllPosts);
+
+//@route Delete api/post/:postId
+//@desc  Deleting a post
+//@access private
+router.delete("/:postId", isAuth, deletePostById);
 
 module.exports = router;

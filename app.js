@@ -46,7 +46,7 @@ app.use((error, req, res, next) => {
 
 const port = process.env.PORT || 5000;
 
-//connect to mongodb and only start the server when connected
+//connect to mongodb and only start the server then
 mongoose
   .connect(MONGO_URI_LOCAL, { useNewUrlParser: true })
   .then(() => {

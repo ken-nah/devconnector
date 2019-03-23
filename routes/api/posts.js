@@ -8,7 +8,9 @@ const isAuth = require("../../middlewares/is-auth");
 const {
   createNewPost,
   getAllPosts,
-  deletePostById
+  deletePostById,
+  unlikeAPost,
+  likeAPost
 } = require("../../controllers/posts");
 //@route POST api/post
 //@desc  Creating a new post
@@ -37,5 +39,15 @@ router.get("/", getAllPosts);
 //@desc  Deleting a post
 //@access private
 router.delete("/:postId", isAuth, deletePostById);
+
+//@route POST api/post/like/:postId
+//@desc  Liking a post
+//@access private
+router.post("/like/:postId", isAuth, likeAPost);
+
+//@route POST api/post/unlike/:postId
+//@desc  unliking a post
+//@access private
+router.post("/unlike/:postId", isAuth, unlikeAPost);
 
 module.exports = router;

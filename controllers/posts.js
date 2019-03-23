@@ -66,3 +66,47 @@ exports.deletePostById = (req, res, next) => {
     )
     .catch(err => next(err));
 };
+
+//liking a post
+exports.likeAPost = (req, res, next) => {
+  Post.findById(req.params.postId)
+    .then(post => {
+      if (
+        post.likes.filter(
+          like => like.user.toString() === req.id
+        ).length
+      )
+        return res.status(400).json({
+          alreadyLiked: "You have already liked this post.."
+        });
+      //add user to the likes array
+
+      post.likes.push({ user: req.id });
+      post.save().then(post => res.json(post));
+    })
+    .catch(err => next(err));
+};
+
+//unliking a post
+exports.unlikeAPost = (req, res, next) => {
+  Post.findById(req.params.postId)
+    .then(post => {
+      if (
+        post.likes.filter(
+          like => like.user.toString() === req.id
+        ).length === 0
+      )
+        return res.status(400).json({
+          notLiked: "You have not liked this post yet.."
+        });
+
+      //remove the user from the likes array
+      const removeIndex = post.likes
+        .map(item => item.user.toString())
+        .indexOf(req.id);
+
+      post.likes.splice(removeIndex, 1);
+      post.save().then(post => res.json(post));
+    })
+    .catch(err => next(err));
+};

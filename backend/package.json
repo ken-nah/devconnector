@@ -1,10 +1,13 @@
 {
   "name": "dev-connector",
   "version": "1.0.0",
-  "description": "A social Network for developers",
+  "description": "A social Network for Kisii University developers",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "server": "nodemon app.js",
+    "client-install": "cd ../frontend && npm install",
+    "client": "cd ../frontend && npm start",
+    "dev-server": "concurrently \"npm run client\" \"npm run server\""
   },
   "author": "Kennah",
   "license": "MIT",

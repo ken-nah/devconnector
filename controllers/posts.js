@@ -110,3 +110,80 @@ exports.unlikeAPost = (req, res, next) => {
     })
     .catch(err => next(err));
 };
+
+//creating a comment
+exports.createANewComment = (req, res, next) => {
+  //check for validation errors first
+
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    const allErrors = {};
+    for (let { param, msg } of validationErrors.array())
+      allErrors[param] = msg;
+    return res.status(400).json(allErrors);
+  }
+
+  Post.findById(req.params.postId)
+    .then(post => {
+      if (post) {
+        const { text, name, avatar } = req.body;
+        const newComment = {
+          text,
+          name,
+          avatar,
+          user: req.id
+        };
+        post.comments.push(newComment);
+        return post.save();
+      }
+
+      return res
+        .status(404)
+        .json({ noPost: "No Such post found.." });
+    })
+    .then(updatedPost => res.json(updatedPost))
+    .catch(err => next(err));
+};
+
+//deleting a comment
+exports.deleteAComment = (req, res, next) => {
+  Post.findById(req.params.postId)
+    .then(post => {
+      //check if the post exists, if not throw an error
+      if (!post) {
+        const error = new Error("No such post was found");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      //the post exists then we have to find for the comment
+      const comment = post.comments.filter(
+        comment =>
+          comment._id.toString() === req.params.commentId
+      );
+
+      if (!comment.length)
+        return res.status(404).json({
+          comment: "Comment does not exist"
+        });
+
+      //the comment exists we have to make sure the right owner is deleting it
+      if (comment[0].user.toString() !== req.id)
+        return res.status(401).json({
+          comment:
+            "You cannot delete other people's comment"
+        });
+
+      //let's get the comment index and remove it from the comments array
+
+      const removeIndex = post.comments
+        .map(comment => comment._id.toString())
+        .indexOf(req.params.commentId);
+
+      post.comments.splice(removeIndex, 1);
+      post
+        .save()
+        .then(updatedPost => res.json(updatedPost));
+    })
+    .catch(err => next(err));
+};

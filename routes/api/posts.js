@@ -10,7 +10,9 @@ const {
   getAllPosts,
   deletePostById,
   unlikeAPost,
-  likeAPost
+  likeAPost,
+  createANewComment,
+  deleteAComment
 } = require("../../controllers/posts");
 //@route POST api/post
 //@desc  Creating a new post
@@ -49,5 +51,29 @@ router.post("/like/:postId", isAuth, likeAPost);
 //@desc  unliking a post
 //@access private
 router.post("/unlike/:postId", isAuth, unlikeAPost);
+
+//@route POST api/post/comment/:postId
+//@desc  posting a new commment
+//@access private
+router.post(
+  "/comment/:postId",
+  [
+    body("text")
+      .exists()
+      .withMessage("Text Field is required")
+  ],
+  isAuth,
+  createANewComment
+);
+
+//@route DELETE api/post/comment/:postId/:commentId
+//@desc  deleting a  commment
+//@access private
+
+router.delete(
+  "/comment/:postId/:commentId",
+  isAuth,
+  deleteAComment
+);
 
 module.exports = router;

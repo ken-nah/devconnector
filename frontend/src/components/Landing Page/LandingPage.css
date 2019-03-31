@@ -1,0 +1,19 @@
+.welcome-page {
+	min-height: 650px;
+}
+
+.welcome-page .welcome-text p{
+	margin: 0 35% 0 0;
+}
+
+.welcome-page .pattern{
+	left: 0;
+	bottom: 0;
+	height: 200px;
+	width: 100%;
+	background-image: url(../../images/bb.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: bottom
+}
+

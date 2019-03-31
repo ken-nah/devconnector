@@ -1,0 +1,122 @@
+.flex-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/***** images *****/
+img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-style: none;
+}
+
+/***** heading 1 *****/
+h1 {
+  font-size: 44px;
+  line-height: 49px;
+  font-weight: 500;
+}
+
+/***** Links *****/
+a,
+a:hover {
+  text-decoration: none;
+}
+
+a:focus {
+  outline: none;
+  text-decoration: none;
+}
+
+/***** buttons *****/
+.main-btn {
+  display: inline-block;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  position: relative;
+  font-size: 14px;
+  word-spacing: 2px;
+  font-weight: 500;
+  transform: perspective(1px) translateX(0px);
+  transition: all 0.2s ease 0s;
+  overflow: hidden;
+}
+
+.main-btn:before {
+  content: "";
+  background-color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
+  z-index: -1;
+}
+
+.main-btn:hover:before {
+  transform: scaleX(1);
+}
+
+/* btn-3 */
+.btn-3 {
+  padding: 11px 25px;
+  background-color: #5882fd;
+  color: #fff;
+  border: 1px solid #5882fd;
+}
+
+.main-btn.before-gray:before {
+  background-color: #edf5ff;
+}
+.main-btn.btn-orange {
+  background-color: #ff7762;
+  border-color: #ff7762;
+}
+
+.main-btn.btn-orange:hover {
+  color: #ff7762;
+}
+
+.sec-padding {
+  padding: 80px 0;
+}
+.p-relative {
+  position: relative;
+}
+.p-absolute {
+  position: absolute;
+}
+.o-hidden {
+  overflow: hidden;
+}
+.bg-gray {
+  background-color: #edf5ff;
+}
+.mb-50px {
+  margin-bottom: 50px;
+}
+.mt-40px {
+  margin-top: 40px;
+}
+.mt-10px {
+  margin-top: 10px;
+}
+.mr-10px {
+  margin-right: 10px;
+}
+.z-index-1 {
+  z-index: 1;
+}
+.mb-20px {
+  margin-bottom: 20px;
+}

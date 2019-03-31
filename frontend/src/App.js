@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
+import LandingPage from "./components/Landing Page/LandingPage";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <Navbar />
-        <h1>React App</h1>
+        <LandingPage />
       </div>
     );
   }

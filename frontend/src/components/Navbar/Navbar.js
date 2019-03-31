@@ -7,7 +7,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-expand-lg">
         <div className="container">
           <a className="navbar-brand" href="#">
-            <img src="../../img/logo.png" alt="logo" />
+            <img src="/img/logo.png" alt="logo" />
           </a>
           <button
             className="navbar-toggler"

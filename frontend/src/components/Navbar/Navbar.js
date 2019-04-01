@@ -27,7 +27,7 @@ class Navbar extends Component {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <a
-                  className="nav-link"
+                  className="nav-link active"
                   href="#"
                   data-scroll-nav="1"
                 >

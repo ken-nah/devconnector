@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./About.css";
 import "../../App.css";
 
@@ -34,9 +35,8 @@ const About = () => {
                 environment, With a belief that engaging in
                 active learning provides significant
                 benefits and is critical to the success of
-                programmers.When cooperating with students
-                from the department of Computing Sciences,
-                developers may gain benefits such as:
+                programmers. This can bring benefits such
+                as:
               </p>
               <p className="mb-10px">
                 <i className="fa fa-check color-blue mr-5px" />
@@ -95,7 +95,11 @@ const About = () => {
                 collaborations, programming contests, pair
                 programming, live presentations etc. This
                 project is open source and can be found on
-                this <a href="#">GitHub Repo</a> <br />
+                this{" "}
+                <Link to="/github.com/ken-nah/dev-connector">
+                  GitHub Repo
+                </Link>
+                <br />
                 The project is made using <b>MERN</b> stack.
                 Feel free to fork the repo, add your own
                 ideas and submit pull requests.We'll be
@@ -109,7 +113,7 @@ const About = () => {
               className="mt-25px mb-25px wow fadeInRight"
               data-wow-delay="0.45s"
             >
-              <img src="img/ll.png" alt="img" />
+              <img src="img/j.png" alt="img" />
             </div>
           </div>
         </div>

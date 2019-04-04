@@ -1,0 +1,55 @@
+.how-work .mt-25px span{
+	height: 90px;
+	width: 90px;
+	line-height: 90px;
+}	
+
+.how-work .mt-25px:hover span{
+	background-color: #5882fd;
+	color: #fff;
+}	
+ 
+.how-work .col-md-4  .mt-25px span.p-relative:before{
+	content: "";
+	position: absolute;
+	right: -8%;
+	top: -8%;
+	height: 116%;
+	width: 116%;
+	border-radius: 50%;
+	border: 8px solid #5882fd;
+	z-index: -1;
+	transform: scale(0.8);
+}
+
+@keyframes bulb {
+	0%{transform: scale(0.8); opacity: 0.55;}
+	100%{transform: scale(1.4); opacity: 0;}
+}
+
+.how-work .col-md-4  .mt-25px:hover span.p-relative:before{
+	animation: bulb 1s 1 forwards
+}
+
+.how-work .col-md-4.p-relative.last-one:after{
+	content: none;
+}
+
+.title-h{
+	text-align: center;
+	font-size: 30px;
+	line-height: 40px;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+}
+
+.title-p{
+	text-align: center;
+	margin: 0 24%;
+    font-size: 17px;
+	line-height: 24px;
+	font-weight: 400;
+	color: #737373;
+	margin-bottom: 60px;
+	position: relative;
+}

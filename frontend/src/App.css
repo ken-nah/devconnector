@@ -356,7 +356,28 @@ a:focus {
 .radius-25px{border-radius: 25px;}
 .radius-50px{border-radius: 50px;}
 
-.z-index-1 {
-  z-index: 1;
-}
+/***** background-color *****/
+.bg-333{background-color: #333;}
+.bg-333-hvr:hover{background-color: #333;}
+.bg-aaa{background-color: #aaa;}
+.bg-eee{background-color: #eee;}
+.bg-fff{background-color: #fff;}
+.bg-fff-hvr:hover{background-color: #fff;}
+.bg-gray{background-color: #edf5ff;}
+.bg-blue{background-color: #5882fd;}
+.bg-blue-hvr:hover{background-color: #5882fd;}
+.bg-orange{background-color: #ff7762;}
+.bg-orange-lh{background-color: #ffe9da;}
+.bg-orange-hvr:hover{background-color: #ff7762;}
+.bg-green{background-color: #1eda65;}
+.bg-green-hvr:hover{background-color: #1eda65;}
+.bg-green-lh{background-color: #d9f1e2;}
+
+.o-hidden{overflow: hidden;}
+.z-index-0{z-index: 0;}
+.z-index-1{z-index: 1;}
+.z-index-2{z-index: 2;}
+.z-index-3{z-index: 3;}
+.div-10{height: 10px;}
+.no-border{border: none;}
 

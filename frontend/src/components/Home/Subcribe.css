@@ -1,0 +1,11 @@
+.get-started form input:focus{
+	outline: none;
+	box-shadow: 0 5px 15px -5px #fff
+}
+
+.get-started form button{
+	right: 0;
+	top: 0;
+	cursor: pointer;
+	outline: none;
+}

@@ -14,25 +14,25 @@ const LandingPage = () => {
           <div className="col-md-6 mb-50px z-index-1">
             <h1 className="mb-20px">KUCSA Developers</h1>
             <p>
-              Are you, or was a computing science student
-              in Kisii University? Join other developers
-              in making the soul of devices.Let's network,
-              do project collaborations and upgrade our
-              job readiness.
+              Are you, or was a computing science student in
+              Kisii University? Do you have programming
+              skills? Join other developers in making the
+              soul of devices.Let's network, do project
+              collaborations and upgrade our job readiness.
             </p>
-            <a
+            <Link
               className="main-btn btn-3 mt-40px mr-10px before-gray"
-              href="/register"
+              to="/register"
             >
               Join Us
-            </a>
-            <a
+            </Link>
+            <Link
               className="main-btn btn-3 btn-orange mt-10px before-gray"
               data-lity
-              href="/login"
+              to="/login"
             >
               Login
-            </a>
+            </Link>
           </div>
           <div className="col-md-6 text-center">
             <img alt="img" src="/img/n.png" />

@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route
-} from "react-router-dom";
+import { BrowserRouter, Route } from 'react-router-dom'
 import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -14,15 +11,15 @@ import Register from "./components/auth/Register/Register";
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Navbar />
-
-        <Route exact path="/" component={Homepage} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-
-        <Footer />
-      </Router>
+      <div>
+        <BrowserRouter>
+          <Navbar />
+          <Route path="/" exact component={Homepage} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
+          <Footer />
+        </BrowserRouter>
+      </div>
     );
   }
 }

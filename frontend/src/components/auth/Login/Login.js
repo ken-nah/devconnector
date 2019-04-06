@@ -83,7 +83,7 @@ class Login extends Component {
                 Not a member? Sign up
               </Link>
               <Link
-                to="/forgot-password"
+                to="/password-reset"
                 className="float-right"
               >
                 Forgot password

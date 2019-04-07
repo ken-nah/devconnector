@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+import classnames from "classnames";
+
 import "../../../App.css";
 import "../Auth.css";
 
@@ -10,12 +13,13 @@ class Register extends Component {
     email: "",
     password: "",
     confirmPassword: "",
-    errors: ""
+    errors: {}
   };
 
   onChangeHandler = event => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      errors: {}
     });
   };
 
@@ -36,10 +40,20 @@ class Register extends Component {
       confirmPassword
     };
 
-    console.log(newUser);
+    axios
+      .post(
+        "http://localhost:5000/api/users/register",
+        newUser
+      )
+      .then(res => console.log(res.data))
+      .catch(err =>
+        this.setState({ errors: err.response.data })
+      );
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
       <section className="welcome-page register-page sec-padding pb-150px p-relative o-hidden bg-gray h-auto">
         <div className="container">
@@ -70,9 +84,18 @@ class Register extends Component {
                         name="name"
                         value={this.state.name}
                         onChange={this.onChangeHandler}
-                        className="d-block w-100"
+                        className={classnames(
+                          "d-block w-100 form-control",
+                          {
+                            "is-invalid": errors.name
+                          }
+                        )}
                       />
-                      <i className="fa fa-user fs-20 color-blue p-absolute" />
+                      {errors.name && (
+                        <i className="invalid-feedback">
+                          {errors.name}
+                        </i>
+                      )}
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -83,9 +106,16 @@ class Register extends Component {
                         name="email"
                         value={this.state.email}
                         onChange={this.onChangeHandler}
-                        className="d-block w-100"
+                        className={classnames(
+                          "d-block w-100 form-control",
+                          {
+                            "is-invalid": errors.email
+                          }
+                        )}
                       />
-                      <i className="fa fa-envelope fs-20 color-blue p-absolute" />
+                      <i className="invalid-feedback">
+                        {errors.email}
+                      </i>
                     </div>
                   </div>
                 </div>
@@ -96,9 +126,17 @@ class Register extends Component {
                     name="password"
                     value={this.state.password}
                     onChange={this.onChangeHandler}
-                    className="d-inline-block w-100"
+                    className={classnames(
+                      "d-inline-block w-100 form-control",
+                      {
+                        "is-invalid": errors.password
+                      }
+                    )}
                   />
-                  <i className="fa fa-lock fs-20 color-blue p-absolute" />
+                  
+                  <i className="invalid-feedback">
+                    {errors.password}
+                  </i>
                 </div>
                 <div className="form-group p-relative">
                   <input
@@ -107,9 +145,16 @@ class Register extends Component {
                     name="confirmPassword"
                     value={this.state.confirmPassword}
                     onChange={this.onChangeHandler}
-                    className="d-inline-block w-100"
+                    className={classnames(
+                      "d-inline-block w-100 form-control",
+                      {
+                        "is-invalid": errors.confirmPassword
+                      }
+                    )}
                   />
-                  <i className="fa fa-lock fs-20 color-blue p-absolute" />
+                  <i className="invalid-feedback">
+                    {errors.confirmPassword}
+                  </i>
                 </div>
                 <button className="main-btn btn-3 before-gray">
                   Sign Up{" "}

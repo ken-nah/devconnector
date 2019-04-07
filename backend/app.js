@@ -17,10 +17,6 @@ const profile = require("./routes/api/profile");
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
-app.use("/api/users", users);
-app.use("/api/post", posts);
-app.use("/api/profile", profile);
-
 //CORS rules
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -34,6 +30,10 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use("/api/users", users);
+app.use("/api/post", posts);
+app.use("/api/profile", profile);
 
 //error middleware
 app.use((error, req, res, next) => {

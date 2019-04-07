@@ -20,7 +20,7 @@ class LostPassword extends Component {
               <i className="fa fa-lock fs-50 color-blue mb-10px" />
               <h2>Forgot Your Password !</h2>
               <p>
-                Don't worry ! enter your email you used
+                Don't worry ! Enter the Email you used
                 during registration and we will send you a
                 reset token
               </p>

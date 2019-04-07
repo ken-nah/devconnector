@@ -59,7 +59,6 @@ class Login extends Component {
                     onChange={this.onChangeHandler}
                     className="d-block mb-20px"
                   />
-                  <i className="fa fa-envelope fs-20 color-blue p-absolute" />
                 </div>
                 <div className="form-group p-relative">
                   <input
@@ -70,7 +69,6 @@ class Login extends Component {
                     onChange={this.onChangeHandler}
                     className="d-block mb-20px"
                   />
-                  <i className="fa fa-lock fs-20 color-blue p-absolute" />
                 </div>
                 <button className="main-btn btn-3 before-gray">
                   Log In

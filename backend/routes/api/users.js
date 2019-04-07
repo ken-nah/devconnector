@@ -36,7 +36,7 @@ router.post(
     body("password")
       .isLength({ min: 4 })
       .withMessage(
-        "Password must be atleast 4 characters long"
+        "Password must be at least 4 characters long"
       )
       .trim(),
     body("confirmPassword")

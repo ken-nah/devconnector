@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 class Navbar extends Component {
   render() {
@@ -27,40 +27,41 @@ class Navbar extends Component {
           >
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link
+                <NavLink
                   to="/"
-                  className="nav-link active"
-                  data-scroll-nav="1"
+                  exact
+                  activeClassName="active"
+                  className="nav-link"
                 >
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link
+                <NavLink
                   to="/developers"
+                  activeClassName="active"
                   className="nav-link"
-                  href="#"
-                  data-scroll-nav="2"
                 >
                   Developers
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link
+                <NavLink
                   to="/login"
+                  activeClassName="active"
                   className="nav-link"
-                  data-scroll-nav="3"
                 >
                   Login
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item log-in">
-                <Link
+                <NavLink
                   to="/register"
+                  activeClassName="active"
                   className="nav-link flex-center bg-blue radius-5px transition-3"
                 >
                   Join Us
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>

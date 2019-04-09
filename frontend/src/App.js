@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+
 import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -12,7 +13,6 @@ import PasswordReset from "./components/auth/PasswordReset/LostPassword";
 class App extends Component {
   render() {
     return (
-      <div>
         <BrowserRouter>
           <Navbar />
           <Route path="/" exact component={Homepage} />
@@ -29,7 +29,6 @@ class App extends Component {
           />
           <Footer />
         </BrowserRouter>
-      </div>
     );
   }
 }

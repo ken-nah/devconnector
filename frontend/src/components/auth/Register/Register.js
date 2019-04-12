@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import axios from "axios";
 import classnames from "classnames";
 
 import "../../../App.css";
 import "../Auth.css";
+
+import { registerUser } from "../../../actions/auth-actions";
 
 class Register extends Component {
   state = {
@@ -40,7 +43,7 @@ class Register extends Component {
       confirmPassword
     };
 
-    axios
+    /* axios
       .post(
         "http://localhost:5000/api/users/register",
         newUser
@@ -48,7 +51,9 @@ class Register extends Component {
       .then(res => console.log(res.data))
       .catch(err =>
         this.setState({ errors: err.response.data })
-      );
+      ); */
+
+    this.props.registerUser(newUser);
   };
 
   render() {
@@ -133,7 +138,7 @@ class Register extends Component {
                       }
                     )}
                   />
-                  
+
                   <i className="invalid-feedback">
                     {errors.password}
                   </i>
@@ -175,4 +180,7 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default connect(
+  null,
+  { registerUser }
+)(Register);

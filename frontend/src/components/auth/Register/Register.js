@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import axios from "axios";
 import classnames from "classnames";
 
 import "../../../App.css";
@@ -43,18 +43,14 @@ class Register extends Component {
       confirmPassword
     };
 
-    /* axios
-      .post(
-        "http://localhost:5000/api/users/register",
-        newUser
-      )
-      .then(res => console.log(res.data))
-      .catch(err =>
-        this.setState({ errors: err.response.data })
-      ); */
-
-    this.props.registerUser(newUser);
+    this.props.registerUser(newUser, this.props.history);
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 
   render() {
     const { errors } = this.state;
@@ -180,7 +176,12 @@ class Register extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { registerUser }
-)(Register);
+)(withRouter(Register));

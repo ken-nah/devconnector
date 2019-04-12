@@ -1,1 +1,1 @@
-export const TEST_REGISTRATION = 'registration:testing'
+export const GET_ERRORS = 'registration:errors'

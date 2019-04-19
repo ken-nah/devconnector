@@ -54,6 +54,14 @@ exports.postRegister = (req, res, next) => {
 };
 
 exports.postLogin = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const allErrors = {};
+    for (let { param, msg } of errors.array())
+      allErrors[param] = msg;
+    return res.status(400).json(allErrors);
+  }
+  
   const { email, password } = req.body;
   //check whether email exists
 

@@ -12,13 +12,6 @@ const {
   getCurrentUser
 } = require("../../controllers/users");
 
-//@route GET api/users/test
-//@desc  Testing
-//@access public
-router.get("/test", (req, res) => {
-  return res.json({ message: "Users route" });
-});
-
 //@route POST api/users/register
 //@desc  Registering a new user
 //@access public
@@ -55,7 +48,15 @@ router.post(
 //@access public
 router.post(
   "/login",
-  body("email").normalizeEmail(),
+  [
+    body("email")
+      .isEmail()
+      .withMessage("Please Enter a valid email address")
+      .normalizeEmail(),
+    body("password")
+      .exists()
+      .withMessage("Please enter your password")
+  ],
   postLogin
 );
 

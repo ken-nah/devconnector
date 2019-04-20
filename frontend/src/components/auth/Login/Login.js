@@ -33,6 +33,11 @@ class Login extends Component {
     this.props.loginUser(userData);
   };
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated)
+      this.props.history.push("/dashboard");
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
@@ -64,14 +69,12 @@ class Login extends Component {
                 account now
               </p>
               {errors.user ? (
-                <div
-                  className="alert alert-danger mt-10px"
-                >
+                <div className="alert alert-danger mt-10px">
                   {errors.user}
                 </div>
               ) : (
-                  ""
-                )}
+                ""
+              )}
               <form
                 id="log-in"
                 className="mt-30px mb-20px"

@@ -63,6 +63,15 @@ class Login extends Component {
                 Are you a member of KUCSA? Login to your
                 account now
               </p>
+              {errors.user ? (
+                <div
+                  className="alert alert-danger mt-10px"
+                >
+                  {errors.user}
+                </div>
+              ) : (
+                  ""
+                )}
               <form
                 id="log-in"
                 className="mt-30px mb-20px"

@@ -71,6 +71,15 @@ class Register extends Component {
               <h6 className="mt-20px mb-10px color-666">
                 Create an account with KUCSA
               </h6>
+              {errors.msg ? (
+                <div
+                  className="alert alert-danger"
+                >
+                  {errors.msg}
+                </div>
+              ) : (
+                ""
+              )}
               <form
                 id="log-in"
                 className="mt-30px"

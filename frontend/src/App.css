@@ -111,9 +111,11 @@ a:focus {
   border-color: #ff7762;
 }
 
-.main-btn.btn-orange:hover {
+.main-btn.btn-orange:hover{
   color: #ff7762;
 }
+
+
 
 .main-btn.btn-green {
   background-color: #1eda65;
@@ -251,6 +253,7 @@ a:focus {
 .mr-15px{margin-right: 15px;}
 .mr-20px{margin-right: 20px;}
 .mr-25px{margin-right: 25px;}
+.mr-200px{margin-right: 200px;}
 
 /* margin-left */
 .ml-2px{margin-left: 2px;}
@@ -357,6 +360,10 @@ a:focus {
 .radius-10px{border-radius: 10px;}
 .radius-25px{border-radius: 25px;}
 .radius-50px{border-radius: 50px;}
+
+/***** alignments *****/
+.align-right { text-align: right;}
+.align-left { text-align: left;}
 
 /***** background-color *****/
 .bg-333{background-color: #333;}

@@ -4,23 +4,32 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/set-Auth-Token";
 
 import {
-  GET_ERRORS,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  LOGIN_USER_FAILED,
+  LOGIN_USER_PENDING,
+  LOGIN_USER_SUCCESS,
+  REGISTER_USER_FAILED,
+  REGISTER_USER_PENDING,
+  REGISTER_USER_SUCCESS
 } from "../actions/types";
 
 export const registerUser = (
   userData,
   history
 ) => dispatch => {
+  dispatch({ type: REGISTER_USER_PENDING });
   axios
     .post(
       "http://localhost:5000/api/users/register",
       userData
     )
-    .then(res => history.push("/login"))
+    .then(res => {
+      dispatch({ type: REGISTER_USER_SUCCESS });
+      return history.push("/login");
+    })
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: REGISTER_USER_FAILED,
         payload: err.response.data
       })
     );
@@ -28,9 +37,14 @@ export const registerUser = (
 
 //log in user - get token
 export const loginUser = userData => dispatch => {
+  dispatch({ type: LOGIN_USER_PENDING });
+
   axios
     .post("http://localhost:5000/api/users/login", userData)
     .then(res => {
+
+      dispatch({ type: LOGIN_USER_SUCCESS });
+
       //get token and save to local storage
       const { token } = res.data;
 
@@ -44,12 +58,12 @@ export const loginUser = userData => dispatch => {
 
       dispatch(setCurrentUser(decodedToken));
     })
-    .catch(err =>
+    .catch(err => 
       dispatch({
-        type: GET_ERRORS,
+        type: LOGIN_USER_FAILED,
         payload: err.response.data
       })
-    );
+    )
 };
 
 //set in logged in user

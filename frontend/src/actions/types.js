@@ -1,2 +1,11 @@
-export const GET_ERRORS = "get_errors";
-export const SET_CURRENT_USER = "set_current_user";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+
+export const REGISTER_USER_PENDING = "REGISTER_USER_PENDING";
+export const REGISTER_USER_FAILED = "REGISTER_USER_FAILED";
+export const REGISTER_USER_SUCCESS = "REGISTER_USER_SUCCESS";
+
+export const LOGIN_USER_PENDING = "LOGIN_USER_PENDING";
+export const LOGIN_USER_FAILED = "LOGIN_USER_FAILED";
+export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
+
+

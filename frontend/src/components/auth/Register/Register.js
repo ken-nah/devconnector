@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import classnames from "classnames";
 
 
-import "../Auth.css";
+import Spinner from "../../common/Spinner/Loading";
 
 import { registerUser } from "../../../actions/auth-actions";
 
@@ -52,13 +52,14 @@ class Register extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps.auth.errors) {
+      this.setState({ errors: nextProps.auth.errors });
     }
   }
 
   render() {
     const { errors } = this.state;
+    const { loading } = this.props.auth;
 
     return (
       <section className="welcome-page register-page sec-padding pb-150px p-relative o-hidden bg-gray h-auto">
@@ -174,6 +175,7 @@ class Register extends Component {
                 <button className="main-btn btn-3 before-gray">
                   Sign Up{" "}
                 </button>
+                {loading ? <Spinner /> : null}
               </form>
               <Link
                 to="/login"
@@ -191,8 +193,7 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 });
 
 export default connect(

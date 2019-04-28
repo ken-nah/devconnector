@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { connect } from "react-redux";
 
-import "../Auth.css";
+import Spinner from "../../common/Spinner/Loading";
 
 import { loginUser } from "../../../actions/auth-actions";
 
@@ -42,13 +42,14 @@ class Login extends Component {
       this.props.history.push("/dashboard");
     }
 
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps.auth.errors) {
+      this.setState({ errors: nextProps.auth.errors });
     }
   }
 
   render() {
     const { errors } = this.state;
+    const { loading } = this.props.auth;
 
     return (
       <section className="welcome-page sec-padding pb-150px p-relative o-hidden bg-gray h-auto">
@@ -119,6 +120,7 @@ class Login extends Component {
                   Log In
                 </button>
               </form>
+              {loading ? <Spinner /> : null}
               <Link
                 to="/register"
                 className="float-left mb-10px"
@@ -141,8 +143,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 });
 
 export default connect(

@@ -4,7 +4,6 @@ import classnames from "classnames";
 import { connect } from "react-redux";
 
 import "../Auth.css";
-import "../../../App.css";
 
 import { loginUser } from "../../../actions/auth-actions";
 

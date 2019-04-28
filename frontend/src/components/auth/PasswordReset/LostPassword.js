@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import "../Auth.css";
-import "../../../App.css";
 
 class LostPassword extends Component {
   render() {
@@ -18,7 +17,7 @@ class LostPassword extends Component {
             </div>
             <div className="col-md-6">
               <i className="fa fa-lock fs-50 color-blue mb-10px" />
-              <h2>Forgot Your Password !</h2>
+              <h2>Forgot Your Password ?</h2>
               <p>
                 Don't worry ! Enter the Email you used
                 during registration and we will send you a
@@ -32,7 +31,6 @@ class LostPassword extends Component {
                     required
                     className="d-block mb-20px"
                   />
-                  <i className="fa fa-envelope fs-20 color-blue p-absolute" />
                 </div>
                 <button className="main-btn btn-3 before-gray">
                   Send Request

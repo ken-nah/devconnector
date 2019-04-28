@@ -1,6 +1,5 @@
 import React from "react";
 import "./How-work.css";
-import "../../App.css";
 
 const HowWork = () => {
   return (

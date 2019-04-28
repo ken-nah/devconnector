@@ -1,7 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./About.css";
-import "../../App.css";
 
 const About = () => {
   return (
@@ -96,9 +94,9 @@ const About = () => {
                 programming, live presentations etc. This
                 project is open source and can be found on
                 this{" "}
-                <Link to="/github.com/ken-nah/dev-connector">
+                <a href="https://github.com/ken-nah/KUSCA-Dev-Connector/">
                   GitHub Repo
-                </Link>
+                </a>
                 <br />
                 The project is made using <b>MERN</b> stack.
                 Feel free to fork the repo, add your own

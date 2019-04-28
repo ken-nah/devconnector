@@ -1,6 +1,5 @@
 import React from "react";
 import "./Subcribe.css";
-import "../../App.css";
 
 const Subcribe = () => {
   return (

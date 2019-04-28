@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 
 import classnames from "classnames";
 
-import "../../../App.css";
+
 import "../Auth.css";
 
 import { registerUser } from "../../../actions/auth-actions";
